@@ -1,0 +1,271 @@
+{% extends 'students/base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-10">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <!-- Header -->
+                <div class="card-header bg-primary text-white text-center py-4 rounded-top-4">
+                    <h2 class="mb-0">
+                        <i class="fas fa-user-graduate me-2"></i>
+                        Update Student
+                    </h2>
+                    <small>Student Information Management System</small>
+                </div>
+
+                <div class="card-body p-5">
+
+                    <form method="POST" enctype="multipart/form-data" id="studentForm">
+
+                        {% csrf_token %}
+
+                        <!-- STUDENT DETAILS -->
+
+                        <div class="bg-light p-3 rounded-3 mb-4">
+                            <h4 class="text-primary mb-3">
+                                <i class="fas fa-user"></i>
+                                Student Details
+                            </h4>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Full Name</label>
+                                    <input type="text" name="name" value="{{ student.name }}"
+                                        class="form-control form-control-lg" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Email</label>
+                                    <input type="email" name="email" value="{{ student.email }}"
+                                        class="form-control form-control-lg">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Phone Number</label>
+                                    <input type="text" name="phone" value="{{ student.phone }}"
+                                        class="form-control form-control-lg">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Date of Birth</label>
+                                    <input type="date" name="dob" value="{{ student.dob|date:'Y-m-d' }}"
+                                        class="form-control form-control-lg">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Gender</label>
+                                    <select class="form-select form-select-lg" name="gender">
+
+                                        <option value="Male" {% if student.gender == 'Male' %}selected{% endif %}>
+                                            Male
+                                        </option>
+
+                                        <option value="Female" {% if student.gender == 'Female' %}selected{% endif %}>
+                                            Female
+                                        </option>
+
+                                        <option value="Other" {% if student.gender == 'Other' %}selected{% endif %}>
+                                            Other
+                                        </option>
+
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Course</label>
+                                    <input type="text" name="course" value="{{ student.course }}"
+                                        class="form-control form-control-lg">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- PARENT DETAILS -->
+
+                        <div class="bg-light p-3 rounded-3 mb-4">
+                            <h4 class="text-success mb-3">
+                                <i class="fas fa-users"></i>
+                                Parent Details
+                            </h4>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Father Name</label>
+                                    <input type="text" name="father_name" value="{{ student.father_name }}"
+                                        class="form-control">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Mother Name</label>
+                                    <input type="text" name="mother_name" value="{{ student.mother_name }}"
+                                        class="form-control">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Parent Contact</label>
+                                    <input type="text" name="parent_contact" value="{{ student.parent_contact }}"
+                                        class="form-control">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Parent Occupation</label>
+                                    <input type="text" name="occupation" value="{{ student.occupation }}"
+                                        class="form-control">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ADDRESS -->
+
+                        <div class="bg-light p-3 rounded-3 mb-4">
+                            <h4 class="text-warning mb-3">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Address Details
+                            </h4>
+
+                            <div class="row">
+
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label fw-bold">Address</label>
+                                    <textarea class="form-control" rows="3"
+                                        name="address">{{ student.address }}</textarea>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label fw-bold">City</label>
+                                    <input type="text" name="city" value="{{ student.city }}" class="form-control">
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label fw-bold">State</label>
+                                    <input type="text" name="state" value="{{ student.state }}" class="form-control">
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label fw-bold">Pin Code</label>
+                                    <input type="text" name="pincode" value="{{ student.pincode }}"
+                                        class="form-control">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ACADEMIC DETAILS -->
+
+                        <div class="bg-light p-3 rounded-3 mb-4">
+
+                            <h4 class="text-danger mb-3">
+                                <i class="fas fa-book-open"></i>
+                                Academic Details
+                            </h4>
+
+                            <div class="row">
+
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label fw-bold">
+                                        Roll Number
+                                    </label>
+                                    <input type="text" name="roll_no" value="{{ student.roll_no }}"
+                                        class="form-control">
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label fw-bold">
+                                        Obtained Marks
+                                    </label>
+                                    <input type="number" name="obtained_marks" value="{{ student.obtained_marks }}"
+                                        class="form-control">
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label fw-bold">
+                                        Total Marks
+                                    </label>
+                                    <input type="number" name="total_marks" value="{{ student.total_marks }}"
+                                        class="form-control">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- PHOTO -->
+
+                        <div class="bg-light p-3 rounded-3 mb-4">
+
+                            <h4 class="text-info mb-3">
+                                <i class="fas fa-camera"></i>
+                                Upload Photo
+                            </h4>
+                           {% if student.image %}
+                                <div class="text-center mb-3">
+                                     <img src="{{ student.image.url }}"
+                                        class="img-thumbnail"
+                                         width="150">
+                                </div>
+                            {% endif %}
+
+                                <input type="file"
+                                       name="image"
+                                    class="form-control">
+
+                        </div>
+
+                        <div class="d-grid">
+
+                            <button type="submit" class="btn btn-success btn-lg rounded-pill">
+
+                                <i class="fas fa-edit me-2"></i>
+                                Update Student
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<!-- <script>
+    document.getElementById('studentForm').addEventListener('submit', function (e) {
+
+        e.preventDefault();
+
+        Swal.fire({
+            title: 'Update Student?',
+            text: 'Do you want to Save changes?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Update',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#0d6efd'
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+                this.submit();
+            }
+
+        });
+
+    });
+</script> -->
+
+{% endblock %}

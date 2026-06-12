@@ -1,0 +1,114 @@
+{% extends 'students/base.html' %}
+{% block content %}
+
+<div class="card p-4">
+
+    <h2 class="mb-4">Student List</h2>
+    <div class="row mb-3">
+
+    <div class="col-md-6">
+
+        <form method="GET">
+
+            <div class="input-group">
+
+                <input type="text"
+                       name="search"
+                       class="form-control"
+                       placeholder="Search by Name, Roll No, Course"
+                       value="{{ request.GET.search }}">
+
+                <button class="btn btn-primary">
+                    Search
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+    <p class="text-muted">
+    Total Students Found: {{ students.count }}
+</p>
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Course</th>
+                <th>Marks</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for student in students %}
+
+            <tr>
+                <td>{{ student.id }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.phone }}</td>
+                <td>{{ student.course }}</td>
+                <td>{{ student.obtained_marks }}</td>
+
+                <td>
+                    <a href="{% url 'update_student' student.id %}" class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a href="#" class="btn btn-danger btn-sm delete-btn"
+                        data-url="{% url 'delete_student' student.id %}">
+                        Delete
+                    </a>
+                    <a href="{% url 'student_report' student.id %}"
+                   class="btn btn-info btn-sm">
+                    PDF
+                </a>
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+<script>
+document.querySelectorAll('.delete-btn').forEach(button => {
+
+    button.addEventListener('click', function(){
+
+        const url = this.dataset.url;
+
+        Swal.fire({
+            title: 'Delete Student?',
+            text: 'This action cannot be undone!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Delete',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#dc3545'
+        }).then((result)=>{
+
+            if(result.isConfirmed){
+                window.location.href = url;
+            }
+
+        });
+
+    });
+
+});
+</script>
+
+{% endblock %}

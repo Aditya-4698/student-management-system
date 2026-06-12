@@ -1,0 +1,76 @@
+/* Full Background */
+
+body{
+    background: url(https://img.magnific.com/free-vector/back-school-background-flat-design_23-2148596550.jpg?semt=ais_hybrid&w=740&q=80) no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    
+}
+
+/* Dark Overlay */
+
+body::before{
+    content: "";
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.45);
+    z-index:-1;
+}
+
+/* Center Login */
+
+.login-wrapper{
+    min-height: calc(100vh - 120px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Glass Card */
+
+.login-card{
+    width:100%;
+    max-width:420px;
+    padding:40px;
+    border-radius:20px;
+
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(15px);
+
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+
+    color:white;
+}
+
+/* Inputs */
+
+.login-card .form-control{
+    height:50px;
+    border-radius:10px;
+    border:none;
+}
+
+.login-card .form-control:focus{
+    box-shadow:none;
+}
+
+/* Button */
+
+.login-card .btn{
+    height:50px;
+    border-radius:10px;
+    font-weight:600;
+}
+
+/* Heading */
+
+.login-card h2{
+    font-weight:700;
+}
+
+.login-card p{
+    color:#ddd;
+}

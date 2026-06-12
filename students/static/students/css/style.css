@@ -1,0 +1,205 @@
+.card {
+    overflow: hidden;
+}
+
+.table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+    transform: translateY(-2px);
+    background-color: #f8f9fa;
+}
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.table thead th {
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.badge {
+    font-size: 0.85rem;
+}
+
+
+
+/* Dashboard Cards */
+
+.dashboard-card{
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.dashboard-card:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+
+
+.student-navbar{
+    background:#ffffff;
+    height:75px;
+    box-shadow:0 2px 15px rgba(0,0,0,.08);
+}
+
+.navbar-brand{
+    font-size:1.5rem;
+    font-weight:700;
+    color:#2563eb !important;
+}
+
+.nav-link{
+    color:#334155 !important;
+    font-weight:600;
+    margin:0 10px;
+    position:relative;
+}
+
+.nav-link:hover{
+    color:#2563eb !important;
+}
+
+.nav-link::after{
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-5px;
+    width:0%;
+    height:3px;
+    background:#2563eb;
+    transition:.3s;
+}
+
+.nav-link:hover::after{
+    width:100%;
+}
+
+.profile-box{
+    background:#f1f5f9;
+    padding:8px 15px;
+    border-radius:30px;
+    font-weight:600;
+}
+
+.logout-btn{
+    border-radius:25px;
+}
+
+
+
+
+
+
+/* DASHBOARD BANNER */
+
+.dashboard-banner{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    border-radius:20px;
+    padding:30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
+
+.dashboard-banner h2{
+    font-weight:700;
+}
+
+.dashboard-date{
+    font-size:18px;
+    font-weight:600;
+}
+
+/* STATS CARD */
+
+.stats-card{
+    color:white;
+    padding:25px;
+    border-radius:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:.3s;
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
+
+.stats-card:hover{
+    transform:translateY(-8px);
+}
+
+.stats-card i{
+    font-size:55px;
+    opacity:.8;
+}
+
+.blue-card{
+    background:#2563eb;
+}
+
+.green-card{
+    background:#10b981;
+}
+
+.orange-card{
+    background:#f59e0b;
+}
+
+.red-card{
+    background:#ef4444;
+}
+
+/* QUICK ACTION */
+
+.quick-card{
+    border:none;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.action-btn{
+    padding:12px 25px;
+    border-radius:50px;
+    margin:10px;
+    font-size:17px;
+    font-weight:600;
+}
+
+/* TABLE */
+
+.table tbody tr{
+    transition:0.3s;
+}
+
+.table tbody tr:hover{
+    transform:translateY(-2px);
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.card{
+    border-radius:20px;
+}
+
+.card-header{
+    border-radius:20px 20px 0 0 !important;
+}
+
+.btn-sm{
+    margin:2px;
+    border-radius:8px;
+}
+
+.table td{
+    vertical-align:middle;
+}
+

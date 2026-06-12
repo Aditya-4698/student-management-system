@@ -1,0 +1,64 @@
+{% extends 'students/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'students/css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="login-wrapper">
+
+    <div class="login-card">
+
+        <div class="text-center mb-4">
+            <h2>🎓 Student Portal</h2>
+            <p>Login to continue</p>
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label>Username</label>
+                <input type="text"
+                       name="username"
+                       class="form-control"
+                       placeholder="Enter Username"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <label>Password</label>
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       placeholder="Enter Password"
+                       required>
+            </div>
+
+            <button class="btn btn-primary w-100 mt-3">
+                Login
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% if messages %}
+    {% for message in messages %}
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: '{{ message }}',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        </script>
+    {% endfor %}
+{% endif %}
