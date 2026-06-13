@@ -4,7 +4,8 @@
 
         <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
 
-            <img src="https://thumbs.dreamstime.com/b/hand-book-logo-illustration-art-background-43965136.jpg" alt="Logo" width="55" height="55" class="me-2 logo-img">
+            <img src="https://thumbs.dreamstime.com/b/hand-book-logo-illustration-art-background-43965136.jpg"
+                alt="Logo" width="55" height="55" class="me-2 logo-img">
 
             <span>Student Management System</span>
 
@@ -41,37 +42,81 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'book_list' %}">
+                        <i class="bi bi-book-fill"></i>
+                        Library
+                    </a>
+                </li>
+
+
 
             </ul>
 
-            <div class="d-flex align-items-center">
+            {% if user.is_authenticated %}
 
-                {% if user.is_authenticated %}
+            <div class="dropdown me-3">
 
-                <span class="notification-icon me-3">
-                    <i class="bi bi-bell-fill"></i>
+                <!-- Bell Icon (TRIGGER) -->
+                <span class="notification-icon position-relative" data-bs-toggle="dropdown" style="cursor:pointer;">
+
+                    <i class="bi bi-bell-fill fs-5"></i>
+
+                    {% if overdue_issues %}
+                    <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
+                        {{ overdue_issues|length }}
+                    </span>
+                    {% endif %}
+
                 </span>
 
-                <div class="profile-box me-2">
-                    <i class="bi bi-person-circle"></i>
-                    {{ user.username }}
-                </div>
+                <!-- DROPDOWN -->
+                <ul class="dropdown-menu dropdown-menu-end p-2" style="min-width: 250px;">
 
-                <a href="{% url 'logout' %}" class="btn btn-danger logout-btn" id="logoutBtn">
-                    <i class="bi bi-box-arrow-right"></i>
-                    Logout
-                </a>
+                    <li class="fw-bold mb-2">Notifications</li>
 
-                {% else %}
+                    <hr class="my-1">
 
-                <a href="{% url 'login' %}" class="btn btn-success">
-                    <i class="bi bi-box-arrow-in-right"></i>
-                    Login
-                </a>
+                    {% if overdue_issues %}
 
-                {% endif %}
+                    {% for i in overdue_issues %}
+
+                    <li class="small text-danger mb-1">
+                        ⚠ {{ i.student.name }} overdue "{{ i.book.title }}"
+                    </li>
+
+                    {% endfor %}
+
+                    {% else %}
+
+                    <li class="small text-muted">
+                        No notifications 🎉
+                    </li>
+
+                    {% endif %}
+
+                </ul>
 
             </div>
+
+            <div class="profile-box me-2">
+                <i class="bi bi-person-circle"></i>
+                {{ user.username }}
+            </div>
+
+            <a href="{% url 'logout' %}" class="btn btn-danger logout-btn">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </a>
+
+            {% else %}
+
+            <a href="{% url 'login' %}" class="btn btn-success">
+                <i class="bi bi-box-arrow-in-right"></i>
+                Login
+            </a>
+
+            {% endif %}
 
         </div>
 

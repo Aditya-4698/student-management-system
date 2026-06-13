@@ -1,76 +1,210 @@
-/* Full Background */
+/* Background */
 
 body{
-    background: url(https://img.magnific.com/free-vector/back-school-background-flat-design_23-2148596550.jpg?semt=ais_hybrid&w=740&q=80) no-repeat center center fixed;
-    background-size: cover;
-    min-height: 100vh;
-    
+    background:
+    linear-gradient(
+        rgba(15,23,42,.75),
+        rgba(15,23,42,.75)
+    ),
+    url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2000");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+
+    min-height:100vh;
 }
 
-/* Dark Overlay */
-
-body::before{
-    content: "";
-    position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background: rgba(0,0,0,0.45);
-    z-index:-1;
-}
-
-/* Center Login */
+/* Center */
 
 .login-wrapper{
-    min-height: calc(100vh - 120px);
+    min-height:calc(100vh - 80px);
     display:flex;
     justify-content:center;
     align-items:center;
+    padding:20px;
 }
 
-/* Glass Card */
+/* Card */
 
 .login-card{
     width:100%;
-    max-width:420px;
+    max-width:430px;
+
     padding:40px;
-    border-radius:20px;
 
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(15px);
+    border-radius:24px;
 
-    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    backdrop-filter:blur(18px);
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.35);
 
     color:white;
+
+    animation:slideUp .7s ease;
 }
 
-/* Inputs */
+/* Animation */
 
-.login-card .form-control{
-    height:50px;
-    border-radius:10px;
-    border:none;
+@keyframes slideUp{
+
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
 }
 
-.login-card .form-control:focus{
-    box-shadow:none;
-}
+/* Icon */
 
-/* Button */
+.login-icon{
+    width:80px;
+    height:80px;
 
-.login-card .btn{
-    height:50px;
-    border-radius:10px;
-    font-weight:600;
+    margin:auto;
+    margin-bottom:15px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:38px;
+
+    background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.2);
 }
 
 /* Heading */
 
 .login-card h2{
     font-weight:700;
+    margin-bottom:5px;
 }
 
 .login-card p{
-    color:#ddd;
+    color:#d1d5db;
+}
+
+/* Labels */
+
+.login-card label{
+    color:#f1f5f9;
+    margin-bottom:6px;
+    font-weight:500;
+}
+
+/* Inputs */
+
+.login-card .form-control{
+    height:55px;
+
+    border:none;
+
+    background:rgba(255,255,255,.12);
+
+    color:white;
+
+    border-radius:12px;
+
+    transition:.3s;
+}
+
+.login-card .form-control::placeholder{
+    color:#cbd5e1;
+}
+
+.login-card .form-control:focus{
+
+    background:rgba(255,255,255,.18);
+
+    color:white;
+
+    box-shadow:
+    0 0 0 3px rgba(59,130,246,.25);
+
+    border:none;
+}
+
+/* Button */
+
+.login-card .btn{
+
+    height:55px;
+
+    border:none;
+
+    border-radius:12px;
+
+    font-size:16px;
+    font-weight:600;
+
+    background:
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+    transition:.3s;
+}
+
+.login-card .btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 10px 20px rgba(37,99,235,.35);
+}
+
+/* Link */
+
+.login-card a{
+    color:#93c5fd;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.login-card a:hover{
+    color:white;
+}
+
+/* Mobile */
+
+@media(max-width:576px){
+
+    .login-card{
+        padding:30px 25px;
+    }
+
+    .login-icon{
+        width:70px;
+        height:70px;
+        font-size:32px;
+    }
+
+}
+
+.signup-linknew{
+    color:#e2e4e7;
+    font-weight:600;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.signup-link:hover{
+    color:#ffffff;
+    text-shadow:0 0 10px rgba(255,255,255,.6);
 }

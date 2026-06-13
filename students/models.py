@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Student(models.Model):
 # Student Details
@@ -69,3 +70,57 @@ class Student(models.Model):
     def __str__(self):
         return f"{self.roll_no} - {self.name}"
 
+
+
+class Book(models.Model):
+
+    title = models.CharField(max_length=200)
+
+    author = models.CharField(max_length=100)
+
+    isbn = models.CharField(max_length=50, unique=True)
+
+    category = models.CharField(max_length=100)
+
+    publisher = models.CharField(max_length=100)
+
+    quantity = models.PositiveIntegerField()
+
+    available_quantity = models.PositiveIntegerField()
+
+    shelf_no = models.CharField(max_length=50)
+
+    book_image = models.ImageField(
+        upload_to='books/',
+        blank=True,
+        null=True
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+class IssueBook(models.Model):
+
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    issue_date = models.DateField(auto_now_add=True)
+    return_date = models.DateField()
+
+    status = models.CharField(max_length=20, default='Issued')
+
+    fine_per_day = 10  # ₹10 per day late
+
+    def is_overdue(self):
+        if self.status == "Returned":
+            return False
+        return timezone.now().date() > self.return_date
+
+    def fine_amount(self):
+        if not self.is_overdue():
+            return 0
+        days = (timezone.now().date() - self.return_date).days
+        return days * self.fine_per_day

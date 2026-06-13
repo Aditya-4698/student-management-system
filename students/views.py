@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .models import Student
+from .models import Student,Book,IssueBook
+from .forms import BookForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -15,7 +16,40 @@ from datetime import datetime
 from reportlab.lib.pagesizes import A4
 import os
 from django.conf import settings
+from django.contrib.auth.models import User
 
+
+
+
+def signup(request):
+
+    if request.method == 'POST':
+
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match")
+            return redirect('signup')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username already exists")
+            return redirect('signup')
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+
+        user.save()
+
+        messages.success(request, "Account created successfully. Please login.")
+        return redirect('login')
+
+    return render(request, 'students/signup.html')
 
 
 
@@ -204,17 +238,61 @@ def index(request):
 
     students = Student.objects.all().order_by('-id')[:5]
 
+    # 📚 LIBRARY DATA
+    books = Book.objects.all()
+
+    total_books = books.count()
+    issued_books = IssueBook.objects.filter(status='Issued').count()
+
+    overdue_books = sum(
+        1 for i in IssueBook.objects.filter(status='Issued')
+        if i.is_overdue()
+    )
+
+    # 💰 TOTAL FINE CALCULATION
+    total_fine = sum(
+        i.fine_amount()
+        for i in IssueBook.objects.filter(status='Issued')
+    )
+
+    # 📖 RECENT ISSUED BOOKS
+    recent_issues = IssueBook.objects.filter(status='Issued').order_by('-issue_date')[:5]
+
     context = {
+        # student
         'total_students': Student.objects.count(),
         'total_courses': Student.objects.values('course').distinct().count(),
         'toppers': Student.objects.filter(obtained_marks__gte=80).count(),
         'active_students': Student.objects.count(),
         'students': students,
+
+        # library
+        'total_books': total_books,
+        'issued_books': issued_books,
+        'overdue_books': overdue_books,
+        'total_fine': total_fine,
+        'recent_issues': recent_issues,
     }
 
     return render(request, 'students/index.html', context)
 
 
+from students.models import IssueBook
+
+def global_context(request):
+
+    if request.user.is_authenticated:
+
+        issues = IssueBook.objects.filter(status='Issued')
+
+        overdue_issues = [i for i in issues if i.is_overdue()]
+
+        return {
+            'overdue_count': len(overdue_issues),
+            'overdue_issues': overdue_issues[:5],  # only top 5
+        }
+
+    return {}
 
 
 
@@ -617,3 +695,140 @@ def student_report(request, id):
     )
 
     return response
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def book_list(request):
+
+    books = Book.objects.all()
+    issues = IssueBook.objects.filter(status='Issued')
+
+    return render(request, 'students/book_list.html', {
+        'books': books,
+        'issues': issues
+    })
+
+
+@login_required
+def add_book(request):
+
+    if request.method == 'POST':
+
+        form = BookForm(
+            request.POST,
+            request.FILES
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                'Book Added Successfully'
+            )
+
+            return redirect('book_list')
+
+    else:
+
+        form = BookForm()
+
+    return render(
+        request,
+        'students/add_book.html',
+        {
+            'form': form
+        }
+    )
+
+
+
+@login_required
+def issue_book(request, book_id):
+
+    book = get_object_or_404(Book, id=book_id)
+
+    students = Student.objects.all()
+
+    if request.method == 'POST':
+
+        student_id = request.POST.get('student')
+        return_date = request.POST.get('return_date')
+
+        student = get_object_or_404(Student, id=student_id)
+
+        # 🔴 check availability
+        if book.available_quantity <= 0:
+            messages.error(request, "Book not available")
+            return redirect('book_list')
+
+        # 🔴 check already issued
+        already = IssueBook.objects.filter(
+            student=student,
+            book=book,
+            status='Issued'
+        ).exists()
+
+        if already:
+            messages.error(request, "Student already issued this book")
+            return redirect('book_list')
+
+        # ✅ create issue record
+        IssueBook.objects.create(
+            student=student,
+            book=book,
+            return_date=return_date
+        )
+
+        # ✅ reduce stock
+        book.available_quantity -= 1
+        book.save()
+
+        messages.success(request, "Book Issued Successfully")
+        return redirect('book_list')
+
+    return render(request, 'students/issue_book.html', {
+        'book': book,
+        'students': students
+    })
+
+@login_required
+def issued_books_list(request):
+
+    issues = IssueBook.objects.filter(status='Issued').order_by('-issue_date')
+
+    return render(request, 'students/issued_books.html', {
+        'issues': issues
+    })
+
+
+@login_required
+def return_book(request, issue_id):
+
+    issue = get_object_or_404(IssueBook, id=issue_id)
+
+    if issue.status == "Returned":
+        messages.error(request, "Already returned")
+        return redirect('book_list')
+
+    issue.status = "Returned"
+    issue.save()
+
+    # increase stock
+    issue.book.available_quantity += 1
+    issue.book.save()
+
+    messages.success(request, "Book Returned Successfully")
+    return redirect('book_list')

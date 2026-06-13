@@ -1,0 +1,170 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+    linear-gradient(
+        rgba(15,23,42,.75),
+        rgba(15,23,42,.75)
+    ),
+    url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1920");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+.container{
+    width:420px;
+    padding:40px;
+
+    background:rgba(255,255,255,0.08);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border-radius:25px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.4),
+    inset 0 1px 1px rgba(255,255,255,.2);
+
+    text-align:center;
+
+    animation:fadeIn .8s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.icon{
+    font-size:65px;
+    margin-bottom:12px;
+}
+
+h2{
+    color:#fff;
+    font-size:30px;
+    margin-bottom:5px;
+}
+
+.subtitle{
+    color:#d1d5db;
+    margin-bottom:30px;
+    font-size:14px;
+}
+
+.error-msg{
+    background:rgba(255,0,0,.15);
+    color:#ffd4d4;
+    padding:10px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+form input{
+    width:100%;
+    padding:15px 18px;
+
+    margin-bottom:18px;
+
+    border:none;
+    outline:none;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.12);
+
+    color:#fff;
+    font-size:15px;
+
+    transition:.3s;
+}
+
+form input::placeholder{
+    color:#d6d6d6;
+}
+
+form input:focus{
+    background:rgba(255,255,255,.18);
+
+    box-shadow:
+    0 0 0 3px rgba(59,130,246,.3);
+
+    transform:translateY(-2px);
+}
+
+.btn{
+    width:100%;
+    padding:15px;
+
+    border:none;
+    border-radius:12px;
+
+    background:linear-gradient(
+        135deg,
+        #3b82f6,
+        #2563eb
+    );
+
+    color:white;
+    font-size:16px;
+    font-weight:600;
+
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 10px 20px rgba(37,99,235,.4);
+}
+
+.login-link{
+    margin-top:22px;
+    color:#d1d5db;
+    font-size:14px;
+}
+
+.login-link a{
+    color:#60a5fa;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.login-link a:hover{
+    color:white;
+}
+
+@media(max-width:500px){
+
+    .container{
+        width:92%;
+        padding:30px 25px;
+    }
+
+    h2{
+        font-size:24px;
+    }
+}
